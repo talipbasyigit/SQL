@@ -1,0 +1,21 @@
+
+DECLARE @id varchar(max)
+DECLARE @getid CURSOR
+
+SET @getid = CURSOR FOR
+SELECT column1
+FROM   table where column1 not in (select column2 from table2 ) and column1 in (select column3 from table3)
+
+OPEN @getid
+FETCH NEXT
+FROM @getid INTO @id
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    EXEC procedurename @id
+	WAITFOR DELAY '00:00:00.900' 
+    FETCH NEXT
+    FROM @getid INTO @id
+END
+
+CLOSE @getid
+DEALLOCATE @getid
